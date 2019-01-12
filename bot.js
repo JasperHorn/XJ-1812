@@ -35,6 +35,7 @@ bot.on('message', function (message) {
                 break;
             case 'selfdestructingmessage':
                 selfDestructingMessage(message, args);
+                break;
             case 'roll':
                 roll(message, args);
                 break;
