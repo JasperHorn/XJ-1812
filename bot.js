@@ -357,7 +357,8 @@ function secret(message, args) {
         message: secretMessage,
         author: message.author,
         creationDate: Date.now(),
-        revealKey: generateRandomKey()
+        revealKey: generateRandomKey(),
+        verificationKey: generateRandomKey()
     };
     
     secrets.set(key, secret);
@@ -370,6 +371,10 @@ function secret(message, args) {
     message.channel.send("Its reveal key is " + revealKey + ". Those who have this key can peek " +
         "at the secret by writing `/revealsecret " + revealKey + "` in any channel on a server I'm on. " +
         "After revealing the secret, I will forget it.");
+    message.channel.send("Its verification key is " + secret.verificationKey + ". " +
+        "Having the verification key does not give access to the secret. However, by publishing " +
+        "it now, you can later prove that you didn't just make multiple secrets and picked which " +
+        "one to reveal later on.");
 }
 
 function millisToInterval(millis) {
@@ -394,6 +399,7 @@ function millisToInterval(millis) {
 
 function sendSecret(secret, channel) {
     channel.send("The secret is: " + secret.message);
+    channel.send("Its verification key is: " + secret.verificationKey);
     channel.send("I was entrusted with this secret by " + 
         nickname(channel.guild, secret.author) +
         " " + millisToInterval(Date.now() - secret.creationDate) + " ago");
