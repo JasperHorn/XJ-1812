@@ -48,6 +48,9 @@ bot.on('message', function (message) {
             case 'revealsecret':
                 revealSecret(message, args);
                 break;
+            case 'peekatsecret':
+                peekAtSecret(message, args);
+                break;
          }
      }
 });
@@ -93,6 +96,7 @@ function help(message, args) {
     /randomperson [<status|role|allowbots>[|...]] \n\
     /secret \n\
     /revealsecret \n\
+    /peekatsecret \n\
     Feel free to experiment!';
     
     message.channel.send(response);
@@ -369,6 +373,13 @@ function millisToInterval(millis) {
     return Math.floor(days) + (days < 2 ? " day" : " days");
 }
 
+function sendSecret(secret, channel) {
+    channel.send("The secret is: " + secret.message);
+    channel.send("I was entrusted with this secret by " + 
+        nickname(channel.guild, secret.author) +
+        " " + millisToInterval(Date.now() - secret.creationDate) + " ago");
+}
+
 function revealSecret(message, args) {
     if (args.length < 2) {
         message.channel.send("Please specify the key of the secret you wish me to reveal.");
@@ -376,7 +387,7 @@ function revealSecret(message, args) {
     }
     
     if (message.channel.type == 'dm') {
-        message.channel.send("I can't reveal a secret to just one person.");
+        message.channel.send("I can't reveal a secret to just one person. You can peek at the secret instead.");
         return;
     }
     
@@ -385,13 +396,33 @@ function revealSecret(message, args) {
     if (secrets.has(key)) {
         var secret = secrets.get(key);
         
-        message.channel.send("The secret is: " + secret.message);
-        message.channel.send("I was entrusted with this secret by " + 
-            nickname(message.channel.guild, secret.author) +
-            " " + millisToInterval(Date.now() - secret.creationDate) + " ago");
+        sendSecret(secret, message.channel);
         message.channel.send("Since the secret has been revealed, I will stop keeping it.");
         
         secrets.delete(key);
+    }
+    else {
+        message.channel.send("No secret by that key is known to me");
+    }
+}
+
+function peekAtSecret(message, args) {
+    if (message.channel.type != 'dm') {
+        message.channel.send("You can only peek at secrets in private.");
+        return;
+    }
+    
+    if (args.length < 2) {
+        message.channel.send("Please specify the key of the secret you wish to peek at.");
+        return;
+    }
+    
+    var key = args[1];
+    
+    if (secrets.has(key)) {
+        var secret = secrets.get(key);
+        
+        sendSecret(secret, message.channel);
     }
     else {
         message.channel.send("No secret by that key is known to me");
