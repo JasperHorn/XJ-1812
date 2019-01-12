@@ -358,7 +358,8 @@ function secret(message, args) {
         author: message.author,
         creationDate: Date.now(),
         revealKey: generateRandomKey(),
-        verificationKey: generateRandomKey()
+        verificationKey: generateRandomKey(),
+        peekers: []
     };
     
     secrets.set(key, secret);
@@ -367,7 +368,8 @@ function secret(message, args) {
     
     message.channel.send("I'm now keeping your secret");
     message.channel.send("Its peek key is " + key + ". Those who have this key can peek " +
-        "at the secret by writing `/peekatsecret " + key + "` in a DM to me.");
+        "at the secret by writing `/peekatsecret " + key + "` in a DM to me. It will be recorded " +
+        "who peeked at the secret, and revealing or peaking at the secret will reveal who peeked at it.");
     message.channel.send("Its reveal key is " + revealKey + ". Those who have this key can peek " +
         "at the secret by writing `/revealsecret " + revealKey + "` in any channel on a server I'm on. " +
         "After revealing the secret, I will forget it.");
@@ -403,6 +405,14 @@ function sendSecret(secret, channel) {
     channel.send("I was entrusted with this secret by " + 
         nickname(channel.guild, secret.author) +
         " " + millisToInterval(Date.now() - secret.creationDate) + " ago");
+    if (secret.peekers.length == 0) {
+        channel.send("Nobody has peeked at the secret.");
+    }
+    else {
+        channel.send("The secret was peeked at by: " + 
+            secret.peekers.map(user => nickname(channel.guild, user))
+                .reduce((usersSoFar, user) => usersSoFar + ', ' + user));
+    }
 }
 
 function revealSecret(message, args) {
@@ -455,6 +465,10 @@ function peekAtSecret(message, args) {
         var secret = secrets.get(key);
         
         sendSecret(secret, message.channel);
+        
+        if (!secret.peekers.includes(message.author) && message.author != secret.author) {
+            secret.peekers.push(message.author);
+        }
     }
     else {
         message.channel.send("No secret by that key is known to me");
