@@ -325,11 +325,15 @@ function randomPerson(message, args) {
 
 var secrets = new Map();
 
+function generateRandomKey() {
+    return Math.random().toString().substring(2, 10);
+}
+
 function generateUniqueRandomKey() {
     var key;
     
     do {
-        key = Math.random().toString().substring(2, 10);
+        key = generateRandomKey();
     } while (secrets.has(key));
     
     return key;
@@ -347,10 +351,25 @@ function secret(message, args) {
     }
     
     var key = generateUniqueRandomKey();
-    var secret = message.content.replace('/secret ', '');
+    var secretMessage = message.content.replace('/secret ', '');
     
-    secrets.set(key, { message: secret, author: message.author, creationDate: Date.now() });
-    message.channel.send("Your secret has been stored under the key " + key);
+    var secret = {
+        message: secretMessage,
+        author: message.author,
+        creationDate: Date.now(),
+        revealKey: generateRandomKey()
+    };
+    
+    secrets.set(key, secret);
+    
+    var revealKey = key + '|' + secret.revealKey;
+    
+    message.channel.send("I'm now keeping your secret");
+    message.channel.send("Its peek key is " + key + ". Those who have this key can peek " +
+        "at the secret by writing `/peekatsecret " + key + "` in a DM to me.");
+    message.channel.send("Its reveal key is " + revealKey + ". Those who have this key can peek " +
+        "at the secret by writing `/revealsecret " + revealKey + "` in any channel on a server I'm on. " +
+        "After revealing the secret, I will forget it.");
 }
 
 function millisToInterval(millis) {
@@ -391,9 +410,16 @@ function revealSecret(message, args) {
         return;
     }
     
-    var key = args[1];
+    var keys = args[1].split('|');
+    var key = keys[0];
     
-    if (secrets.has(key)) {
+    if (keys.length < 2) {
+        message.channel.send("You need the full reveal key to reveal a secret. " + 
+            "What you sent looks like a peek key, with which you can only " + 
+            "peek at the secret.")
+        return;
+    }
+    else if (secrets.has(key) && secrets.get(key).revealKey == keys[1]) {
         var secret = secrets.get(key);
         
         sendSecret(secret, message.channel);
@@ -417,7 +443,7 @@ function peekAtSecret(message, args) {
         return;
     }
     
-    var key = args[1];
+    var key = args[1].split('|')[0];
     
     if (secrets.has(key)) {
         var secret = secrets.get(key);
