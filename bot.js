@@ -233,9 +233,11 @@ function roll(message, args) {
     var output = "Rolled " + count.toString() + "d" + dieType.toString() + ": ";
     output += results.reduce((a, b) => a + b, 0);
     
-    output += ' (';
-    output += results.reduce((a, b) => a.toString() + ", " + b.toString());
-    output += ')';
+    if (count > 1) {
+        output += ' (';
+        output += results.reduce((a, b) => a.toString() + ", " + b.toString());
+        output += ')';
+    }
     
     message.channel.send(output);
 }
