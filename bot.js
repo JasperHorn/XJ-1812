@@ -203,7 +203,7 @@ function roll(message, args) {
     var count = parseInt(dice[0]);
     var dieType = parseInt(dice[1]);
     
-    if (count <= 0) {
+    if (isNaN(count) || count <= 0) {
         count = 1;
     }
     
@@ -211,7 +211,7 @@ function roll(message, args) {
         count = 20;
     }
     
-    if (dieType <= 0) {
+    if (isNaN(dieType) || dieType <= 0) {
         dieType = 6;
     }
     
