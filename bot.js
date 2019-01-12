@@ -345,8 +345,28 @@ function secret(message, args) {
     var key = generateUniqueRandomKey();
     var secret = message.content.replace('/secret ', '');
     
-    secrets.set(key, { message: secret, author: message.author });
+    secrets.set(key, { message: secret, author: message.author, creationDate: Date.now() });
     message.channel.send("Your secret has been stored under the key " + key);
+}
+
+function millisToInterval(millis) {
+    var seconds = millis / 1000;
+    if (seconds < 60) {
+        return Math.floor(seconds) + (seconds < 2 ? " second" : " seconds");
+    }
+    
+    var minutes = seconds / 60;
+    if (minutes < 60) {
+        return Math.floor(minutes) + (minutes < 2 ? " minute" : " minutes");
+    }
+    
+    var hours = minutes / 60;
+    if (hours < 24) {
+        return Math.floor(hours) + (hours < 2 ? " hour" : " hours");
+    }
+    
+    var days = hours / 24;
+    return Math.floor(days) + (days < 2 ? " day" : " days");
 }
 
 function revealSecret(message, args) {
@@ -363,8 +383,12 @@ function revealSecret(message, args) {
     var key = args[1];
     
     if (secrets.has(key)) {
-        message.channel.send("The secret is: " + secrets.get(key).message);
-        message.channel.send("I was entrusted with this secret by " + nickname(message.channel.guild, secrets.get(key).author));
+        var secret = secrets.get(key);
+        
+        message.channel.send("The secret is: " + secret.message);
+        message.channel.send("I was entrusted with this secret by " + 
+            nickname(message.channel.guild, secret.author) +
+            " " + millisToInterval(Date.now() - secret.creationDate) + " ago");
         message.channel.send("Since the secret has been revealed, I will stop keeping it.");
         
         secrets.delete(key);
