@@ -42,6 +42,12 @@ bot.on('message', function (message) {
             case 'randomperson':
                 randomPerson(message, args);
                 break;
+            case 'secret':
+                secret(message, args);
+                break;
+            case 'revealsecret':
+                revealSecret(message, args);
+                break;
          }
      }
 });
@@ -81,6 +87,8 @@ function help(message, args) {
     /selfdestructingmessage \n\
     /roll <n>d<x> \n\
     /randomperson [<status|role|allowbots>[|...]] \n\
+    /secret \n\
+    /revealsecret \n\
     Feel free to experiment!';
     
     message.channel.send(response);
@@ -305,6 +313,60 @@ function randomPerson(message, args) {
     var person = people[personIndex];
     
     message.channel.send("Randomly picked: " + nickname(guild, person.user));
+}
+
+var secrets = new Map();
+
+function generateUniqueRandomKey() {
+    var key;
+    
+    do {
+        key = Math.random().toString().substring(2, 10);
+    } while (secrets.has(key));
+    
+    return key;
+}
+
+function secret(message, args) {
+    if (args.length < 2) {
+        message.channel.send("Please provide me with a secret to keep.");
+        return;
+    }
+    
+    if (message.channel.type != 'dm') {
+        message.channel.send("You've got to tell me your secret in private, silly. Otherwise it's not a secret.");
+        return;
+    }
+    
+    var key = generateUniqueRandomKey();
+    var secret = message.content.replace('/secret ', '');
+    
+    secrets.set(key, { message: secret });
+    message.channel.send("Your secret has been stored under the key " + key);
+}
+
+function revealSecret(message, args) {
+    if (args.length < 2) {
+        message.channel.send("Please specify the key of the secret you wish me to reveal.");
+        return;
+    }
+    
+    if (message.channel.type == 'dm') {
+        message.channel.send("I can't reveal a secret to just one person.");
+        return;
+    }
+    
+    var key = args[1];
+    
+    if (secrets.has(key)) {
+        message.channel.send("The secret is: " + secrets.get(key).message);
+        message.channel.send("Since the secret has been revealed, I will stop keeping it.");
+        
+        secrets.delete(key);
+    }
+    else {
+        message.channel.send("No secret by that key is known to me");
+    }
 }
 
 bot.login(auth.token);
