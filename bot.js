@@ -198,7 +198,13 @@ function selfDestructingMessage(message, args) {
 }
 
 function roll(message, args) {
-    var dice = args[1].split('d', 2);
+    var dice;
+    if (args.length > 1) {
+        dice = args[1].split('d', 2);
+    }
+    else {
+        dice = [];
+    }
     
     var count = parseInt(dice[0]);
     var dieType = parseInt(dice[1]);
