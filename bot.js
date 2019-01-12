@@ -62,7 +62,11 @@ function nickname(guild, user) {
     var guildName = null;
     
     if (guild) {
-        guildName = guild.member(user).nickname;
+        var member = guild.member(user);
+        
+        if (member) {
+            guildName = member.nickname;
+        }
     }
     
     if (guildName !== null) {
@@ -341,7 +345,7 @@ function secret(message, args) {
     var key = generateUniqueRandomKey();
     var secret = message.content.replace('/secret ', '');
     
-    secrets.set(key, { message: secret });
+    secrets.set(key, { message: secret, author: message.author });
     message.channel.send("Your secret has been stored under the key " + key);
 }
 
@@ -360,6 +364,7 @@ function revealSecret(message, args) {
     
     if (secrets.has(key)) {
         message.channel.send("The secret is: " + secrets.get(key).message);
+        message.channel.send("I was entrusted with this secret by " + nickname(message.channel.guild, secrets.get(key).author));
         message.channel.send("Since the secret has been revealed, I will stop keeping it.");
         
         secrets.delete(key);
