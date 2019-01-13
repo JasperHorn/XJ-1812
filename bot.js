@@ -370,8 +370,8 @@ function secret(message, args) {
     message.channel.send("Its peek key is " + key + ". Those who have this key can peek " +
         "at the secret by writing `/peekatsecret " + key + "` in a DM to me. It will be recorded " +
         "who peeked at the secret, and revealing or peaking at the secret will reveal who peeked at it.");
-    message.channel.send("Its reveal key is " + revealKey + ". Those who have this key can peek " +
-        "at the secret by writing `/revealsecret " + revealKey + "` in any channel on a server I'm on. " +
+    message.channel.send("Its reveal key is " + revealKey + ". Those who have this key can reveal " +
+        "the secret by writing `/revealsecret " + revealKey + "` in any channel on a server I'm on. " +
         "After revealing the secret, I will forget it.");
     message.channel.send("Its verification key is " + secret.verificationKey + ". " +
         "Having the verification key does not give access to the secret. However, by publishing " +
