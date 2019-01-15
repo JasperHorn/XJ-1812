@@ -51,6 +51,12 @@ bot.on('message', function (message) {
             case 'peekatsecret':
                 peekAtSecret(message, args);
                 break;
+            case 'saveattachments':
+                saveAttachments(message, args);
+                break;
+            case 'loadattachments':
+                loadAttachments(message, args);
+                break;
          }
      }
 });
@@ -472,6 +478,21 @@ function peekAtSecret(message, args) {
     }
     else {
         message.channel.send("No secret by that key is known to me");
+    }
+}
+
+var savedAttachments = [];
+
+function saveAttachments(message, args) {
+    savedAttachments = message.attachments.map(attachment => attachment.url);
+    message.channel.send("I saved your attachments");
+}
+
+function loadAttachments(message, args) {
+    var newAttachments = savedAttachments.map(url => new Discord.Attachment(url));
+    
+    if (savedAttachments.length > 0) {
+        message.channel.send("These are the most recently saved attachments", { files: newAttachments });
     }
 }
 
