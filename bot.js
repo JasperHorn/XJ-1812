@@ -1,6 +1,8 @@
 var Discord = require('discord.js');
 var auth = require('./auth.json');
 
+var SqlPoC = require('./sqlpoc.js');
+
 // Initialize Discord Bot
 var bot = new Discord.Client();
 
@@ -56,6 +58,15 @@ bot.on('message', function (message) {
                 break;
             case 'loadattachments':
                 loadAttachments(message, args);
+                break;
+            case 'sqlstore':
+                SqlPoC.sqlStore(message, args);
+                break;
+            case 'sqlread':
+                SqlPoC.sqlRead(message, args);
+                break;
+            case 'sqldelete':
+                SqlPoC.sqlDelete(message, args);
                 break;
          }
      }
