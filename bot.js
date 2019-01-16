@@ -2,6 +2,7 @@ var Discord = require('discord.js');
 var auth = require('./auth.json');
 
 var SqlPoC = require('./sqlpoc.js');
+var StoreImage = require('./store-image.js');
 
 // Initialize Discord Bot
 var bot = new Discord.Client();
@@ -68,6 +69,18 @@ bot.on('message', function (message) {
             case 'sqldelete':
                 SqlPoC.sqlDelete(message, args);
                 break;
+            case 'storeimage':
+                StoreImage.storeImage(message, args);
+                break;
+            case 'readimage':
+                StoreImage.readImage(message, args);
+                break;
+            case 'deleteimage':
+                StoreImage.deleteImage(message, args);
+                break;
+            case 'listimagekeys':
+                StoreImage.listImageKeys(message, args);
+                break;
          }
      }
 });
@@ -114,6 +127,10 @@ function help(message, args) {
     /secret \n\
     /revealsecret \n\
     /peekatsecret \n\
+    /storeimage \n\
+    /loadimage \n\
+    /deleteimage \n\
+    /listimagekeys \n\
     Feel free to experiment!';
     
     message.channel.send(response);
