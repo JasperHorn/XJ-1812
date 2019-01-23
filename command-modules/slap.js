@@ -1,7 +1,12 @@
 
 var Utils = require('../utils.js');
 
-exports.slap = slap;
+var slapCommand = {
+    command: 'slap',
+    handler: slap
+};
+
+exports.commands = [slapCommand];
 
 function slap(message, args) {
     var response = '*' + Utils.authorNickname(message) + ' ';

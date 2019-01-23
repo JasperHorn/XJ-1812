@@ -1,9 +1,22 @@
 
 var Utils = require('../utils.js');
 
-exports.secret = secret;
-exports.revealSecret = revealSecret;
-exports.peekAtSecret = peekAtSecret;
+var secretCommand = {
+    command: 'secret',
+    handler: secret
+};
+
+var revealSecretCommand = {
+    command: 'revealsecret',
+    handler: revealSecret
+};
+
+var peekAtSecretCommand = {
+    command: 'peekatsecret',
+    handler: peekAtSecret
+};
+
+exports.commands = [secretCommand, revealSecretCommand, peekAtSecretCommand];
 
 var secrets = new Map();
 

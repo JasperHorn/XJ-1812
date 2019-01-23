@@ -1,8 +1,17 @@
 
 var Discord = require('discord.js');
 
-exports.saveAttachments = saveAttachments;
-exports.loadAttachments = loadAttachments;
+var saveAttachmentsCommand = {
+    command: 'saveattachments',
+    handler: saveAttachments
+};
+
+var loadAttachmentsCommand = {
+    command: 'loadattachments',
+    handler: loadAttachments
+};
+
+exports.commands = [saveAttachmentsCommand, loadAttachmentsCommand];
 
 var savedAttachments = [];
 

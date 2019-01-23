@@ -2,10 +2,27 @@
 var Sequelize = require('Sequelize');
 var Discord = require('discord.js');
 
-exports.storeImage = storeImage;
-exports.readImage = readImage;
-exports.deleteImage = deleteImage;
-exports.listImageKeys = listImageKeys;
+var storeImageCommand = {
+    command: 'storeimage',
+    handler: storeImage
+};
+
+var loadImageCommand = {
+    command: 'loadimage',
+    handler: loadImage
+};
+
+var deleteImageCommand = {
+    command: 'deleteimage',
+    handler: deleteImage
+};
+
+var listImageKeysCommand = {
+    command: 'listimagekeys',
+    handler: listImageKeys
+};
+
+exports.commands = [storeImageCommand, loadImageCommand, deleteImageCommand, listImageKeysCommand];
 
 var database = new Sequelize('sqlite:storeimage.db');
 
@@ -61,7 +78,7 @@ function storeImage(message, args) {
     });
 }
 
-function readImage(message, args) {
+function loadImage(message, args) {
     if (args.length < 2) {
         message.channel.send("You need to specify the key of the image you want me to retrieve");
         return;

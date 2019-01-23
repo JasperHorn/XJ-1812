@@ -1,9 +1,22 @@
 
-exports.sqlStore = sqlStore;
-exports.sqlRead = sqlRead;
-exports.sqlDelete = sqlDelete;
-
 var Sequelize = require('Sequelize');
+
+var sqlStoreCommand = {
+    command: 'sqlstore',
+    handler: sqlStore
+};
+
+var sqlReadCommand = {
+    command: 'sqlread',
+    handler: sqlRead
+};
+
+var sqlDeleteCommand = {
+    command: 'sqldelete',
+    handler: sqlDelete
+};
+
+exports.commands = [sqlStoreCommand, sqlReadCommand, sqlDeleteCommand];
 
 var database = new Sequelize('sqlite:sqlpoc.db');
 

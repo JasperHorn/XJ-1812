@@ -1,5 +1,10 @@
 
-exports.booyeah = booyeah;
+var booyeahCommand = {
+    command: 'booyeah',
+    handler: booyeah
+};
+
+exports.commands = [booyeahCommand];
 
 function booyeah(message, args) {
     message.react("👍");

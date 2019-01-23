@@ -1,7 +1,12 @@
 
 var Utils = require('../utils.js');
 
-exports.randomPerson = randomPerson;
+var randomPersonCommand = {
+    command: 'randomperson',
+    handler: randomPerson
+};
+
+exports.commands = [randomPersonCommand];
 
 function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;

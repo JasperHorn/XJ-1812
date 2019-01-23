@@ -1,10 +1,27 @@
 
 var Utils = require('../utils.js');
 
-exports.countdown = countdown;
-exports.deleteThis = deleteThis;
-exports.selfDeletingMessage = selfDeletingMessage;
-exports.selfDestructingMessage = selfDestructingMessage;
+var countdownCommand = {
+    command: 'countdown',
+    handler: countdown
+};
+
+var deleteThisCommand = {
+    command: 'deletethis',
+    handler: deleteThis
+};
+
+var selfDeletingMessageCommand = {
+    command: 'selfdeletingmessage',
+    handler: selfDeletingMessage
+};
+
+var selfDestructingMessageCommand = {
+    command: 'selfdestructingmessage',
+    handler: selfDestructingMessage
+};
+
+exports.commands = [countdownCommand, deleteThisCommand, selfDeletingMessageCommand, selfDestructingMessageCommand];
 
 function delay(time, value) {
    return new Promise(function(resolve) {

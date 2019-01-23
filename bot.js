@@ -1,15 +1,17 @@
 var Discord = require('discord.js');
 var auth = require('./auth.json');
 
-var SqlPoC = require('./command-modules/sqlpoc.js');
-var StoreImage = require('./command-modules/store-image.js');
-var Booyeah = require('./command-modules/booyeah.js');
-var Slap = require('./command-modules/slap.js');
-var SelfDestroy = require('./command-modules/self-destroy.js');
-var Dice = require('./command-modules/dice.js');
-var Lottery = require('./command-modules/lottery.js');
-var SecretMessages = require('./command-modules/secret-messages.js');
-var SaveAttachments = require('./command-modules/save-attachments.js');
+var commandModules = [];
+
+commandModules.push(require('./command-modules/sqlpoc.js'));
+commandModules.push(require('./command-modules/store-image.js'));
+commandModules.push(require('./command-modules/booyeah.js'));
+commandModules.push(require('./command-modules/slap.js'));
+commandModules.push(require('./command-modules/self-destroy.js'));
+commandModules.push(require('./command-modules/dice.js'));
+commandModules.push(require('./command-modules/lottery.js'));
+commandModules.push(require('./command-modules/secret-messages.js'));
+commandModules.push(require('./command-modules/save-attachments.js'));
 
 // Initialize Discord Bot
 var bot = new Discord.Client();
@@ -22,77 +24,25 @@ bot.on('ready', function () {
     bot.user.setActivity('/xj-1812');
 });
 
+var commands = new Map();
+
+commandModules.forEach(function (commandModule) {
+    commandModule.commands.forEach(function (command) {
+        commands.set(command.command, command);
+    });
+});
+
 bot.on('message', function (message) {
     if (message.content.substring(0, 1) == '/') {
         var args = message.content.substring(1).split(' ');
         var cmd = args[0];
 
-        switch(cmd) {
-            case 'xj-1812':
-                help(message, args);
-                break;
-            case 'slap':
-                Slap.slap(message, args);
-                break;
-            case 'countdown':
-                SelfDestroy.countdown(message, args);
-                break;
-            case 'deletethis':
-                SelfDestroy.deleteThis(message, args);
-                break;
-            case 'selfdeletingmessage':
-                SelfDestroy.selfDeletingMessage(message, args);
-                break;
-            case 'selfdestructingmessage':
-                SelfDestroy.selfDestructingMessage(message, args);
-                break;
-            case 'roll':
-                Dice.roll(message, args);
-                break;
-            case 'randomperson':
-                Lottery.randomPerson(message, args);
-                break;
-            case 'secret':
-                SecretMessages.secret(message, args);
-                break;
-            case 'revealsecret':
-                SecretMessages.revealSecret(message, args);
-                break;
-            case 'peekatsecret':
-                SecretMessages.peekAtSecret(message, args);
-                break;
-            case 'saveattachments':
-                SaveAttachments.saveAttachments(message, args);
-                break;
-            case 'loadattachments':
-                SaveAttachments.loadAttachments(message, args);
-                break;
-            case 'sqlstore':
-                SqlPoC.sqlStore(message, args);
-                break;
-            case 'sqlread':
-                SqlPoC.sqlRead(message, args);
-                break;
-            case 'sqldelete':
-                SqlPoC.sqlDelete(message, args);
-                break;
-            case 'storeimage':
-                StoreImage.storeImage(message, args);
-                break;
-            case 'loadimage':
-                StoreImage.readImage(message, args);
-                break;
-            case 'deleteimage':
-                StoreImage.deleteImage(message, args);
-                break;
-            case 'listimagekeys':
-                StoreImage.listImageKeys(message, args);
-                break;
-            case 'booyeah':
-                Booyeah.booyeah(message, args);
-                break;
-
-         }
+        if (cmd == 'xj-1812') {
+            help(message, args);
+        }
+        else if (commands.has(cmd)) {
+            commands.get(cmd).handler(message, args);
+        }
      }
 });
 
