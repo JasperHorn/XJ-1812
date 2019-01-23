@@ -3,22 +3,26 @@ var Utils = require('../utils.js');
 
 var countdownCommand = {
     command: 'countdown',
-    handler: countdown
+    handler: countdown,
+    includeInBasicHelp: false
 };
 
 var deleteThisCommand = {
     command: 'deletethis',
-    handler: deleteThis
+    handler: deleteThis,
+    includeInBasicHelp: false
 };
 
 var selfDeletingMessageCommand = {
     command: 'selfdeletingmessage',
-    handler: selfDeletingMessage
+    handler: selfDeletingMessage,
+    includeInBasicHelp: false
 };
 
 var selfDestructingMessageCommand = {
     command: 'selfdestructingmessage',
-    handler: selfDestructingMessage
+    handler: selfDestructingMessage,
+    includeInBasicHelp: true
 };
 
 exports.commands = [countdownCommand, deleteThisCommand, selfDeletingMessageCommand, selfDestructingMessageCommand];

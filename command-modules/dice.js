@@ -2,7 +2,8 @@
 var rollCommand = {
     command: 'roll',
     handler: roll,
-    usageHint: '<n>d<x>'
+    usageHint: '<n>d<x>',
+    includeInBasicHelp: true
 };
 
 exports.commands = [rollCommand];

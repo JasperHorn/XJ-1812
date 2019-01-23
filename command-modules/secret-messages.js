@@ -3,17 +3,20 @@ var Utils = require('../utils.js');
 
 var secretCommand = {
     command: 'secret',
-    handler: secret
+    handler: secret,
+    includeInBasicHelp: true
 };
 
 var revealSecretCommand = {
     command: 'revealsecret',
-    handler: revealSecret
+    handler: revealSecret,
+    includeInBasicHelp: false
 };
 
 var peekAtSecretCommand = {
     command: 'peekatsecret',
-    handler: peekAtSecret
+    handler: peekAtSecret,
+    includeInBasicHelp: false
 };
 
 exports.commands = [secretCommand, revealSecretCommand, peekAtSecretCommand];

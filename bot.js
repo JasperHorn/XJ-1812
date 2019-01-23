@@ -52,15 +52,16 @@ function help(message, args) {
     var response = 'Hi! My name is XJ-1812. I do things when you begin your message with one of the following: \n\ /help \n';
 
     commands.forEach(function (command) {
-        response += '/' + command.command;
+        if (command.includeInBasicHelp) {
+            response += '/' + command.command;
 
-        if (command.usageHint) {
-            response += ' ' + command.usageHint;
+            if (command.usageHint) {
+                response += ' ' + command.usageHint;
+            }
+
+            response += '\n';
         }
-
-        response += '\n';
     });
-
 
     response += 'Feel free to experiment!';
 

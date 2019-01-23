@@ -3,17 +3,20 @@ var Sequelize = require('Sequelize');
 
 var sqlStoreCommand = {
     command: 'sqlstore',
-    handler: sqlStore
+    handler: sqlStore,
+    includeInBasicHelp: false
 };
 
 var sqlReadCommand = {
     command: 'sqlread',
-    handler: sqlRead
+    handler: sqlRead,
+    includeInBasicHelp: false
 };
 
 var sqlDeleteCommand = {
     command: 'sqldelete',
-    handler: sqlDelete
+    handler: sqlDelete,
+    includeInBasicHelp: false
 };
 
 exports.commands = [sqlStoreCommand, sqlReadCommand, sqlDeleteCommand];

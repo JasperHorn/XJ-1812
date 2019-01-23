@@ -1,7 +1,8 @@
 
 var booyeahCommand = {
     command: 'booyeah',
-    handler: booyeah
+    handler: booyeah,
+    includeInBasicHelp: true
 };
 
 exports.commands = [booyeahCommand];

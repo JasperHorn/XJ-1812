@@ -4,22 +4,26 @@ var Discord = require('discord.js');
 
 var storeImageCommand = {
     command: 'storeimage',
-    handler: storeImage
+    handler: storeImage,
+    includeInBasicHelp: true
 };
 
 var loadImageCommand = {
     command: 'loadimage',
-    handler: loadImage
+    handler: loadImage,
+    includeInBasicHelp: true
 };
 
 var deleteImageCommand = {
     command: 'deleteimage',
-    handler: deleteImage
+    handler: deleteImage,
+    includeInBasicHelp: true
 };
 
 var listImageKeysCommand = {
     command: 'listimagekeys',
-    handler: listImageKeys
+    handler: listImageKeys,
+    includeInBasicHelp: true
 };
 
 exports.commands = [storeImageCommand, loadImageCommand, deleteImageCommand, listImageKeysCommand];
