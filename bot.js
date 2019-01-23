@@ -1,9 +1,9 @@
 var Discord = require('discord.js');
 var auth = require('./auth.json');
 
-var SqlPoC = require('./sqlpoc.js');
-var StoreImage = require('./store-image.js');
-var Booyeah = require('./booyeah.js');
+var SqlPoC = require('./command-modules/sqlpoc.js');
+var StoreImage = require('./command-modules/store-image.js');
+var Booyeah = require('./command-modules/booyeah.js');
 
 // Initialize Discord Bot
 var bot = new Discord.Client();
