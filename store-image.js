@@ -28,23 +28,23 @@ function storeImage(message, args) {
         message.channel.send("You need to provide a key to store the image under");
         return;
     }
-    
+
     if (message.attachments.size == 0) {
         message.channel.send("You need to attach the image to the command message");
         return;
     }
-    
+
     if (args.length > 2) {
         message.channel.send("Please specify only the key to store the image under");
         return;
     }
-    
+
     var key = args[1];
-    
+
     var attachmentsPromise = Promise.all(message.attachments.map(attachment => Attachment.create({ url: attachment.url })));
-    
+
     var databaseMessage;
-    
+
     Message.create({ key: key }).then(function (savingMessage) {
         databaseMessage = savingMessage;
         return attachmentsPromise;
@@ -68,14 +68,14 @@ function readImage(message, args) {
         message.channel.send("You need to specify the key of the image you want me to retrieve");
         return;
     }
-    
+
     if (args.length > 2) {
         message.channel.send("Please specify only the key of the image that you want me to retrieve");
         return;
     }
-    
+
     var key = args[1];
-    
+
     Message.findOne({
         where: { key: key }
     }).then(function (resultMessage) {
@@ -96,26 +96,26 @@ function deleteImage(message, args) {
         message.channel.send("You need to specify the key of the image you want me to delete");
         return;
     }
-    
+
     if (args.length > 2) {
         message.channel.send("Please specify only the key of the image that should be deleted");
         return;
     }
-    
+
     var key = args[1];
-    
-    Message.findOne({ 
+
+    Message.findOne({
         where: { key: key }
     }).then(function (resultMessage) {
         if (resultMessage != null) {
             resultMessage.getAttachments().then(function (attachments) {
                 var promises = [];
-                
+
                 attachments.forEach(function (attachment) {
                     promises.push(attachment.destroy());
                 });
                 promises.push(resultMessage.destroy());
-                
+
                 Promise.all(promises).then(function () {
                     message.channel.send("Deleted the image under that key");
                 });
