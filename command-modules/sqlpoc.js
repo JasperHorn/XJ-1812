@@ -1,9 +1,7 @@
 
-module.exports = {
-    sqlStore: sqlStore,
-    sqlRead: sqlRead,
-    sqlDelete: sqlDelete
-};
+exports.sqlStore = sqlStore;
+exports.sqlRead = sqlRead;
+exports.sqlDelete = sqlDelete;
 
 var Sequelize = require('Sequelize');
 

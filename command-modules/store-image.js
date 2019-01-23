@@ -2,12 +2,10 @@
 var Sequelize = require('Sequelize');
 var Discord = require('discord.js');
 
-module.exports = {
-    storeImage: storeImage,
-    readImage: readImage,
-    deleteImage: deleteImage,
-    listImageKeys: listImageKeys
-};
+exports.storeImage = storeImage;
+exports.readImage = readImage;
+exports.deleteImage = deleteImage;
+exports.listImageKeys = listImageKeys;
 
 var database = new Sequelize('sqlite:storeimage.db');
 
