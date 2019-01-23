@@ -21,7 +21,7 @@ bot.on('ready', function () {
     console.log('Logged in as: ');
     console.log(bot.user.username + ' - (' + bot.user.tag + ')');
 
-    bot.user.setActivity('/xj-1812');
+    bot.user.setActivity('/help');
 });
 
 var commands = new Map();
@@ -37,7 +37,7 @@ bot.on('message', function (message) {
         var args = message.content.substring(1).split(' ');
         var cmd = args[0];
 
-        if (cmd == 'xj-1812') {
+        if (cmd == 'help') {
             help(message, args);
         }
         else if (commands.has(cmd)) {
@@ -49,7 +49,7 @@ bot.on('message', function (message) {
 bot.on('error', console.log);
 
 function help(message, args) {
-    var response = 'Hi! My name is XJ-1812. I do things when you begin your message with one of the following: \n\ /xj-1812 \n';
+    var response = 'Hi! My name is XJ-1812. I do things when you begin your message with one of the following: \n\ /help \n';
 
     commands.forEach(function (command) {
         response += '/' + command.command;
