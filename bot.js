@@ -90,6 +90,8 @@ bot.on('message', function (message) {
      }
 });
 
+bot.on('error', console.log);
+
 function delay(time, value) {
    return new Promise(function(resolve) { 
        setTimeout(resolve.bind(null, value), time)
