@@ -3,6 +3,7 @@ var auth = require('./auth.json');
 
 var SqlPoC = require('./sqlpoc.js');
 var StoreImage = require('./store-image.js');
+var Booyeah = require('./booyeah.js');
 
 // Initialize Discord Bot
 var bot = new Discord.Client();
@@ -81,6 +82,10 @@ bot.on('message', function (message) {
             case 'listimagekeys':
                 StoreImage.listImageKeys(message, args);
                 break;
+            case 'booyeah':
+                Booyeah.booyeah(message, args);
+                break;
+                
          }
      }
 });
@@ -131,6 +136,7 @@ function help(message, args) {
     /loadimage \n\
     /deleteimage \n\
     /listimagekeys \n\
+    /booyeah \n\
     Feel free to experiment!';
     
     message.channel.send(response);

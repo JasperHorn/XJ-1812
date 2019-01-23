@@ -5,7 +5,7 @@
     "main": "bot.js",
     "author": "Jasper Horn",
     "dependencies": {
-        "discord.js": "^11.4.2",
+        "discord.js": "git+https://github.com/discordjs/discord.js",
         "sequelize": "^4.42.0",
         "sqlite3": "^4.0.6"
     }
