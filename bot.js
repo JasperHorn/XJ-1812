@@ -49,24 +49,20 @@ bot.on('message', function (message) {
 bot.on('error', console.log);
 
 function help(message, args) {
-    var response = 'Hi! My name is XJ-1812. I do things when you begin your message with one of the following: \n\
-    /xj-1812 \n\
-    /slap \n\
-    /countdown \n\
-    /deletethis \n\
-    /selfdeletingmessage \n\
-    /selfdestructingmessage \n\
-    /roll <n>d<x> \n\
-    /randomperson [<status|role|allowbots>[|...]] \n\
-    /secret \n\
-    /revealsecret \n\
-    /peekatsecret \n\
-    /storeimage \n\
-    /loadimage \n\
-    /deleteimage \n\
-    /listimagekeys \n\
-    /booyeah \n\
-    Feel free to experiment!';
+    var response = 'Hi! My name is XJ-1812. I do things when you begin your message with one of the following: \n\ /xj-1812 \n';
+
+    commands.forEach(function (command) {
+        response += '/' + command.command;
+
+        if (command.usageHint) {
+            response += ' ' + command.usageHint;
+        }
+
+        response += '\n';
+    });
+
+
+    response += 'Feel free to experiment!';
 
     message.channel.send(response);
 }

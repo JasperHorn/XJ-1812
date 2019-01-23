@@ -3,7 +3,8 @@ var Utils = require('../utils.js');
 
 var randomPersonCommand = {
     command: 'randomperson',
-    handler: randomPerson
+    handler: randomPerson,
+    usageHint: '[<status|role|allowbots>[|...]]'
 };
 
 exports.commands = [randomPersonCommand];

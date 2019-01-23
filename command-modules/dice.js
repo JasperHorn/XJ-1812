@@ -1,7 +1,8 @@
 
 var rollCommand = {
     command: 'roll',
-    handler: roll
+    handler: roll,
+    usageHint: '<n>d<x>'
 };
 
 exports.commands = [rollCommand];
