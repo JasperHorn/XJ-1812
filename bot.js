@@ -79,7 +79,7 @@ bot.on('message', function (message) {
             case 'storeimage':
                 StoreImage.storeImage(message, args);
                 break;
-            case 'readimage':
+            case 'loadimage':
                 StoreImage.readImage(message, args);
                 break;
             case 'deleteimage':
