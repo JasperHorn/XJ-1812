@@ -109,7 +109,7 @@ function nickname(guild, user) {
         }
     }
 
-    if (guildName !== null) {
+    if (guildName) {
         return guildName;
     }
     else {
