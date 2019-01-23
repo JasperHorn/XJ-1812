@@ -12,7 +12,7 @@ function saveAttachments(message, args) {
 }
 
 function loadAttachments(message, args) {
-    var newAttachments = savedAttachments.map(url => new Discord.Attachment(url));
+    var newAttachments = savedAttachments.map(url => new Discord.MessageAttachment(url));
 
     if (savedAttachments.length > 0) {
         message.channel.send("These are the most recently saved attachments", { files: newAttachments });

@@ -79,7 +79,7 @@ function readImage(message, args) {
     }).then(function (resultMessage) {
         if (resultMessage != null) {
             resultMessage.getAttachments().then(function (attachments) {
-                var newAttachments = attachments.map(attachment => new Discord.Attachment(attachment.url));
+                var newAttachments = attachments.map(attachment => new Discord.MessageAttachment(attachment.url));
                 message.channel.send("Here you go!", { files: newAttachments });
             });
         }
