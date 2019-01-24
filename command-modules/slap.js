@@ -7,6 +7,7 @@ var slapCommand = {
     includeInBasicHelp: true
 };
 
+exports.name = "Slap";
 exports.commands = [slapCommand];
 
 function slap(message, args) {

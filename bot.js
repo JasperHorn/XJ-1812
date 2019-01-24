@@ -49,7 +49,25 @@ bot.on('message', function (message) {
 bot.on('error', console.log);
 
 function help(message, args) {
-    var response = 'Hi! My name is XJ-1812. I do things when you begin your message with one of the following: \n\ /help \n';
+    var response = "Hi! My name is XJ-1812 and I'm a bot. React with 🤖 to learn more.";
+
+    message.channel.send(response).then(function (myMessage) {
+        myMessage.react("🤖");
+
+        var collector = myMessage.createReactionCollector((reaction, user) => reaction.emoji.name == "🤖");
+
+        collector.on('collect', function (reaction) {
+            var user = reaction.users.last();
+
+            if (user != message.client.user) {
+                basicHelp(user);
+            }
+        });
+    });
+}
+
+function basicHelp(user) {
+    response = "These are some of the commands I respond to: \n\n";
 
     commands.forEach(function (command) {
         if (command.includeInBasicHelp) {
@@ -63,9 +81,44 @@ function help(message, args) {
         }
     });
 
-    response += 'Feel free to experiment!';
+    response += '\nFeel free to experiment!';
 
-    message.channel.send(response);
+    response += ' \n\nReact with 📢 to see more commands as well as the command modules loaded';
+
+    user.send(response).then(function (myMessage) {
+        myMessage.react("📢");
+
+        var collector = myMessage.createReactionCollector((reaction, user) => reaction.emoji.name == "📢", { max: 2 });
+
+        collector.on('collect', function (reaction) {
+            var user = reaction.users.last();
+
+            if (user != user.client.user) {
+                listModules(user);
+            }
+        });
+    });
+}
+
+function listModules(user) {
+    var response = "These are the command modules I have loaded: \n";
+
+    commandModules.forEach(function (commandModule) {
+        response += "\n";
+        response += "The " + commandModule.name + " module: \n"
+
+        commandModule.commands.forEach(function (command) {
+            response += '/' + command.command;
+
+            if (command.usageHint) {
+                response += ' ' + command.usageHint;
+            }
+
+            response += '\n';
+        });
+    });
+
+    user.send(response);
 }
 
 bot.login(auth.token);

@@ -19,6 +19,7 @@ var sqlDeleteCommand = {
     includeInBasicHelp: false
 };
 
+exports.name = "SqlStore";
 exports.commands = [sqlStoreCommand, sqlReadCommand, sqlDeleteCommand];
 
 var database = new Sequelize('sqlite:sqlpoc.db');

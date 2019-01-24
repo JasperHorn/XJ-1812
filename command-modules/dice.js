@@ -6,6 +6,7 @@ var rollCommand = {
     includeInBasicHelp: true
 };
 
+exports.name = "Dice";
 exports.commands = [rollCommand];
 
 function randomInteger(min, max) {

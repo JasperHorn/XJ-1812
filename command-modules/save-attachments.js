@@ -13,6 +13,7 @@ var loadAttachmentsCommand = {
     includeInBasicHelp: false
 };
 
+exports.name = "SaveAttachments";
 exports.commands = [saveAttachmentsCommand, loadAttachmentsCommand];
 
 var savedAttachments = [];

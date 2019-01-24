@@ -19,6 +19,7 @@ var peekAtSecretCommand = {
     includeInBasicHelp: false
 };
 
+exports.name = "SecretMessages";
 exports.commands = [secretCommand, revealSecretCommand, peekAtSecretCommand];
 
 var secrets = new Map();

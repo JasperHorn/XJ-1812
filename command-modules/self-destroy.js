@@ -25,6 +25,7 @@ var selfDestructingMessageCommand = {
     includeInBasicHelp: true
 };
 
+exports.name = "SelfDestroy";
 exports.commands = [countdownCommand, deleteThisCommand, selfDeletingMessageCommand, selfDestructingMessageCommand];
 
 function delay(time, value) {

@@ -8,6 +8,7 @@ var randomPersonCommand = {
     includeInBasicHelp: true
 };
 
+exports.name = "Lottery";
 exports.commands = [randomPersonCommand];
 
 function randomInteger(min, max) {

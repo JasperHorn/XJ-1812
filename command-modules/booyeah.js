@@ -5,6 +5,7 @@ var booyeahCommand = {
     includeInBasicHelp: true
 };
 
+exports.name = 'Booyeah';
 exports.commands = [booyeahCommand];
 
 function booyeah(message, args) {

@@ -26,6 +26,7 @@ var listImageKeysCommand = {
     includeInBasicHelp: true
 };
 
+exports.name = "StoreImage";
 exports.commands = [storeImageCommand, loadImageCommand, deleteImageCommand, listImageKeysCommand];
 
 var database = new Sequelize('sqlite:storeimage.db');
