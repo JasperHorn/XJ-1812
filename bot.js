@@ -1,4 +1,7 @@
-
+//
+// Part of XJ-1812
+// License: MITA
+//
 var Discord = require('discord.js');
 
 var HelpMessage = require('./help-message.js');

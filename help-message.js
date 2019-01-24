@@ -1,4 +1,7 @@
-
+//
+// Part of XJ-1812
+// License: MITA
+//
 exports.helpMessage = helpMessage;
 exports.init = init;
 

@@ -1,4 +1,7 @@
-
+//
+// Part of XJ-1812
+// License: MITA
+//
 var Utils = require('../utils.js');
 
 var countdownCommand = {

@@ -1,4 +1,7 @@
-
+//
+// Part of XJ-1812
+// License: MITA
+//
 var Sequelize = require('Sequelize');
 var Discord = require('discord.js');
 
