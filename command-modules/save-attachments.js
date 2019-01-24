@@ -20,12 +20,12 @@ exports.commands = [saveAttachmentsCommand, loadAttachmentsCommand];
 
 var savedAttachments = [];
 
-function saveAttachments(message, args) {
+function saveAttachments(message) {
     savedAttachments = message.attachments.map(attachment => attachment.url);
     message.channel.send("I saved your attachments");
 }
 
-function loadAttachments(message, args) {
+function loadAttachments(message) {
     var newAttachments = savedAttachments.map(url => new Discord.MessageAttachment(url));
 
     if (savedAttachments.length > 0) {

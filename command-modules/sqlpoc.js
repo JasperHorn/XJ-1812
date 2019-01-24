@@ -33,7 +33,9 @@ var Message = database.define('message', {
 
 database.sync();
 
-function sqlStore(message, args) {
+function sqlStore(message) {
+    var args = message.content.split(' ');
+
     if (args.length < 3) {
         message.channel.send("You need to specify both a key and a message to store under that key");
         return;
@@ -57,7 +59,9 @@ function sqlStore(message, args) {
     });
 }
 
-function sqlRead(message, args) {
+function sqlRead(message) {
+    var args = message.content.split(' ');
+
     if (args.length < 2) {
         message.channel.send("You need to specify the key of the message you want me to retrieve");
         return;
@@ -81,7 +85,9 @@ function sqlRead(message, args) {
     });
 }
 
-function sqlDelete(message, args) {
+function sqlDelete(message) {
+    var args = message.content.split(' ');
+
     if (args.length < 2) {
         message.channel.send("You need to specify the key of the message you want me to delete");
         return;

@@ -39,7 +39,8 @@ function generateUniqueRandomKey() {
     return key;
 }
 
-function secret(message, args) {
+function secret(message) {
+    var args = message.content.split(' ');
     if (args.length < 2) {
         message.channel.send("Please provide me with a secret to keep.");
         return;
@@ -115,7 +116,8 @@ function sendSecret(secret, channel) {
     }
 }
 
-function revealSecret(message, args) {
+function revealSecret(message) {
+    var args = message.content.split(' ');
     if (args.length < 2) {
         message.channel.send("Please specify the key of the secret you wish me to reveal.");
         return;
@@ -148,7 +150,8 @@ function revealSecret(message, args) {
     }
 }
 
-function peekAtSecret(message, args) {
+function peekAtSecret(message) {
+    var args = message.content.split(' ');
     if (message.channel.type != 'dm') {
         message.channel.send("You can only peek at secrets in private.");
         return;

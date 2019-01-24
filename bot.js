@@ -38,17 +38,17 @@ bot.on('message', function (message) {
         var cmd = args[0];
 
         if (cmd == 'help') {
-            help(message, args);
+            help(message);
         }
         else if (commands.has(cmd)) {
-            commands.get(cmd).handler(message, args);
+            commands.get(cmd).handler(message);
         }
      }
 });
 
 bot.on('error', console.log);
 
-function help(message, args) {
+function help(message) {
     var response = "Hi! My name is XJ-1812 and I'm a bot. React with 🤖 to learn more.";
 
     message.channel.send(response).then(function (myMessage) {

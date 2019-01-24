@@ -36,7 +36,8 @@ function delay(time, value) {
    });
 }
 
-function countdown(message, args) {
+function countdown(message) {
+    var args = message.content.split(' ');
     var timeout;
 
     if (args.length > 1) {
@@ -109,17 +110,17 @@ function promisedCountdown(startingAt, channel) {
     return channel.send(getCurrentCount()).then(updateLoop);
 }
 
-function deleteThis(message, args) {
+function deleteThis(message) {
     message.delete();
 }
 
-function selfDeletingMessage(message, args) {
+function selfDeletingMessage(message) {
     delay(10000).then(function () {
         message.delete();
     });
 }
 
-function selfDestructingMessage(message, args) {
+function selfDestructingMessage(message) {
     var secretMessageText = message.content.replace('/selfdestructingmessage', Utils.authorNickname(message) + ':');
     message.delete();
 

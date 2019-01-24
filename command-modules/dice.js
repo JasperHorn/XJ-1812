@@ -14,8 +14,10 @@ function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function roll(message, args) {
+function roll(message) {
+    var args = message.content.split(' ');
     var dice;
+
     if (args.length > 1) {
         dice = args[1].split('d', 2);
     }

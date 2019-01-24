@@ -16,7 +16,8 @@ function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function randomPerson(message, args) {
+function randomPerson(message) {
+    var args = message.content.split(' ');
     var guild = message.channel.guild;
 
     if (!guild) {
