@@ -14,6 +14,8 @@ var loadAttachmentsCommand = {
 };
 
 exports.name = "SaveAttachments";
+exports.description = "A proof of concept I used to learn how to work with attachments";
+exports.hidden = true;
 exports.commands = [saveAttachmentsCommand, loadAttachmentsCommand];
 
 var savedAttachments = [];

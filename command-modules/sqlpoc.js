@@ -20,6 +20,8 @@ var sqlDeleteCommand = {
 };
 
 exports.name = "SqlStore";
+exports.description = "A proof of concept I made as I was learning to work with a database (through Sequelize)";
+exports.hidden = true;
 exports.commands = [sqlStoreCommand, sqlReadCommand, sqlDeleteCommand];
 
 var database = new Sequelize('sqlite:sqlpoc.db');

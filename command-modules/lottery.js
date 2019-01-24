@@ -9,6 +9,7 @@ var randomPersonCommand = {
 };
 
 exports.name = "Lottery";
+exports.description = "Select random people on a serverl";
 exports.commands = [randomPersonCommand];
 
 function randomInteger(min, max) {

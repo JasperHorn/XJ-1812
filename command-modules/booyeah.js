@@ -6,6 +6,7 @@ var booyeahCommand = {
 };
 
 exports.name = 'Booyeah';
+exports.description = "A proof of concept based on using emoji reaction to interact with a bot";
 exports.commands = [booyeahCommand];
 
 function booyeah(message, args) {

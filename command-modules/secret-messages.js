@@ -20,6 +20,7 @@ var peekAtSecretCommand = {
 };
 
 exports.name = "SecretMessages";
+exports.description = "Store a secret, let people peak at the secret, and finally reveal it";
 exports.commands = [secretCommand, revealSecretCommand, peekAtSecretCommand];
 
 var secrets = new Map();

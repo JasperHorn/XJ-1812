@@ -26,6 +26,8 @@ var selfDestructingMessageCommand = {
 };
 
 exports.name = "SelfDestroy";
+exports.hidden = true;
+exports.description = "A proof of concept I used to learn to manipulate messages";
 exports.commands = [countdownCommand, deleteThisCommand, selfDeletingMessageCommand, selfDestructingMessageCommand];
 
 function delay(time, value) {

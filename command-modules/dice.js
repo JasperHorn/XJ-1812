@@ -7,6 +7,7 @@ var rollCommand = {
 };
 
 exports.name = "Dice";
+exports.description = "A simple dice roller";
 exports.commands = [rollCommand];
 
 function randomInteger(min, max) {

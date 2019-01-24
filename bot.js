@@ -104,18 +104,59 @@ function listModules(user) {
     var response = "These are the command modules I have loaded: \n";
 
     commandModules.forEach(function (commandModule) {
-        response += "\n";
-        response += "The " + commandModule.name + " module: \n"
+        if (!commandModule.hidden) {
+            response += "\n";
+            response += "The " + commandModule.name + " module: \n";
+            response += commandModule.description + "\n";
 
-        commandModule.commands.forEach(function (command) {
-            response += '/' + command.command;
+            commandModule.commands.forEach(function (command) {
+                response += '/' + command.command;
 
-            if (command.usageHint) {
-                response += ' ' + command.usageHint;
+                if (command.usageHint) {
+                    response += ' ' + command.usageHint;
+                }
+
+                response += '\n';
+            });
+        }
+    });
+
+    response += ' \n\nReact with 👀 to see any hidden command modules';
+
+    user.send(response).then(function (message) {
+        message.react("👀");
+
+        var collector = message.createReactionCollector((reaction, user) => reaction.emoji.name == "👀", { max: 2 });
+
+        collector.on('collect', function (reaction) {
+            var user = reaction.users.last();
+
+            if (user != user.client.user) {
+                listHiddenModules(user);
             }
-
-            response += '\n';
         });
+    });
+}
+
+function listHiddenModules(user) {
+    var response = "These are the hidden command modules I have loaded: \n";
+
+    commandModules.forEach(function (commandModule) {
+        if (commandModule.hidden) {
+            response += "\n";
+            response += "The " + commandModule.name + " module: \n";
+            response += commandModule.description + "\n";
+
+            commandModule.commands.forEach(function (command) {
+                response += '/' + command.command;
+
+                if (command.usageHint) {
+                    response += ' ' + command.usageHint;
+                }
+
+                response += '\n';
+            });
+        }
     });
 
     user.send(response);

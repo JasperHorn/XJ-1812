@@ -8,6 +8,7 @@ var slapCommand = {
 };
 
 exports.name = "Slap";
+exports.description = "A throwback to the IRC days";
 exports.commands = [slapCommand];
 
 function slap(message, args) {

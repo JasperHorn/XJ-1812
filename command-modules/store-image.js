@@ -27,6 +27,7 @@ var listImageKeysCommand = {
 };
 
 exports.name = "StoreImage";
+exports.description = "Store images under a key that you can later use to repost the images quickly";
 exports.commands = [storeImageCommand, loadImageCommand, deleteImageCommand, listImageKeysCommand];
 
 var database = new Sequelize('sqlite:storeimage.db');
