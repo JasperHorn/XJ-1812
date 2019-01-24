@@ -1,4 +1,4 @@
-auth.json
+config.json
 node_modules
 sh.exe.stackdump
 *.db

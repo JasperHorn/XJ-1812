@@ -1,5 +1,5 @@
 var Discord = require('discord.js');
-var auth = require('./auth.json');
+var config = require('./config.json');
 
 var commandModules = [];
 
@@ -49,7 +49,7 @@ bot.on('message', function (message) {
 bot.on('error', console.log);
 
 function help(message) {
-    var response = "Hi! My name is XJ-1812 and I'm a bot. React with 🤖 to learn more.";
+    var response = "Hi! My name is " + config.name + " and I'm a bot. React with 🤖 to learn more.";
 
     message.channel.send(response).then(function (myMessage) {
         myMessage.react("🤖");
@@ -157,4 +157,4 @@ function commandHelpText(command) {
     return output;
 }
 
-bot.login(auth.token);
+bot.login(config.auth.token);
