@@ -29,6 +29,13 @@ exports.name = "SelfDestroy";
 exports.hidden = true;
 exports.description = "A proof of concept I used to learn to manipulate messages";
 exports.commands = [countdownCommand, deleteThisCommand, selfDeletingMessageCommand, selfDestructingMessageCommand];
+exports.init = init;
+
+var commandSequence;
+
+function init(config) {
+    commandSequence = config.commandSequence;
+}
 
 function delay(time, value) {
    return new Promise(function(resolve) {
@@ -121,7 +128,7 @@ function selfDeletingMessage(message) {
 }
 
 function selfDestructingMessage(message) {
-    var secretMessageText = message.content.replace('/selfdestructingmessage', Utils.authorNickname(message) + ':');
+    var secretMessageText = message.content.replace(commandSequence + 'selfdestructingmessage', Utils.authorNickname(message) + ':');
     message.delete();
 
     var secretMessage;

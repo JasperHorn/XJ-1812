@@ -1,6 +1,9 @@
 var Discord = require('discord.js');
 var config = require('./config.json');
 
+var auth = config.auth;
+config.auth = undefined;
+
 var commandModules = [];
 
 commandModules.push(require('./command-modules/sqlpoc.js'));
@@ -28,6 +31,10 @@ var commands = new Map();
 var rawCommands = new Map();
 
 commandModules.forEach(function (commandModule) {
+    if (commandModule.init) {
+        commandModule.init(config);
+    }
+
     commandModule.commands.forEach(function (command) {
         if (command.command) {
             commands.set(command.command, command);
@@ -177,4 +184,4 @@ function commandHelpText(command) {
     return output;
 }
 
-bot.login(config.auth.token);
+bot.login(auth.token);

@@ -22,6 +22,13 @@ var peekAtSecretCommand = {
 exports.name = "SecretMessages";
 exports.description = "Store a secret, let people peak at the secret, and finally reveal it";
 exports.commands = [secretCommand, revealSecretCommand, peekAtSecretCommand];
+exports.init = init;
+
+var commandSequence;
+
+function init(config) {
+    commandSequence = config.commandSequence;
+}
 
 var secrets = new Map();
 
@@ -52,7 +59,7 @@ function secret(message) {
     }
 
     var key = generateUniqueRandomKey();
-    var secretMessage = message.content.replace('/secret ', '');
+    var secretMessage = message.content.replace(commandSequence + 'secret ', '');
 
     var secret = {
         message: secretMessage,
@@ -69,10 +76,10 @@ function secret(message) {
 
     message.channel.send("I'm now keeping your secret");
     message.channel.send("Its peek key is " + key + ". Those who have this key can peek " +
-        "at the secret by writing `/peekatsecret " + key + "` in a DM to me. It will be recorded " +
+        "at the secret by writing `" + commandSequence + "peekatsecret " + key + "` in a DM to me. It will be recorded " +
         "who peeked at the secret, and revealing or peaking at the secret will reveal who peeked at it.");
     message.channel.send("Its reveal key is " + revealKey + ". Those who have this key can reveal " +
-        "the secret by writing `/revealsecret " + revealKey + "` in any channel on a server I'm on. " +
+        "the secret by writing `" + commandSequence + "revealsecret " + revealKey + "` in any channel on a server I'm on. " +
         "After revealing the secret, I will forget it.");
     message.channel.send("Its verification key is " + secret.verificationKey + ". " +
         "Having the verification key does not give access to the secret. However, by publishing " +
