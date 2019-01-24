@@ -1,4 +1,7 @@
-
+//
+// Part of XJ-1812
+// License: MITA
+// 
 var Bot = require('./bot.js');
 
 var commandModules = [];
