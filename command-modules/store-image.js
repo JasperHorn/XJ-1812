@@ -20,13 +20,13 @@ var loadImageCommand = {
 var deleteImageCommand = {
     command: 'deleteimage',
     handler: deleteImage,
-    includeInBasicHelp: true
+    includeInBasicHelp: false
 };
 
 var listImageKeysCommand = {
     command: 'listimagekeys',
     handler: listImageKeys,
-    includeInBasicHelp: true
+    includeInBasicHelp: false
 };
 
 exports.name = "StoreImage";

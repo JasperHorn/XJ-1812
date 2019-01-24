@@ -25,7 +25,7 @@ var selfDeletingMessageCommand = {
 var selfDestructingMessageCommand = {
     command: 'selfdestructingmessage',
     handler: selfDestructingMessage,
-    includeInBasicHelp: true
+    includeInBasicHelp: false
 };
 
 exports.name = "SelfDestroy";
