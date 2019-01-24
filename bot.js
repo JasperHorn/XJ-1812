@@ -1,73 +1,78 @@
-var Discord = require('discord.js');
-var config = require('./config.json');
 
-var auth = config.auth;
-config.auth = undefined;
+var Discord = require('discord.js');
 
 var HelpMessage = require('./help-message.js');
 
-var commandModules = [];
+module.exports = Bot;
 
-commandModules.push(require('./command-modules/sqlpoc.js'));
-commandModules.push(require('./command-modules/store-image.js'));
-commandModules.push(require('./command-modules/booyeah.js'));
-commandModules.push(require('./command-modules/slap.js'));
-commandModules.push(require('./command-modules/self-destroy.js'));
-commandModules.push(require('./command-modules/dice.js'));
-commandModules.push(require('./command-modules/lottery.js'));
-commandModules.push(require('./command-modules/secret-messages.js'));
-commandModules.push(require('./command-modules/save-attachments.js'));
+function Bot(commandModules, config) {
+    var self = this;
 
-// Initialize Discord Bot
-var bot = new Discord.Client();
+    self.run = run;
 
-bot.on('ready', function () {
-    console.log('Connected');
-    console.log('Logged in as: ');
-    console.log(bot.user.username + ' - (' + bot.user.tag + ')');
+    var auth;
+    var commands;
+    var rawCommands;
 
-    bot.user.setActivity(config.commandSequence + 'help');
-});
+    init();
 
-HelpMessage.init(config, commandModules);
+    function init() {
+        auth = config.auth;
+        config.auth = undefined;
 
-var commands = new Map();
-var rawCommands = new Map();
+        HelpMessage.init(config, commandModules);
 
-commandModules.forEach(function (commandModule) {
-    if (commandModule.init) {
-        commandModule.init(config);
+        commands = new Map();
+        rawCommands = new Map();
+
+        commandModules.forEach(function (commandModule) {
+            if (commandModule.init) {
+                commandModule.init(config);
+            }
+
+            commandModule.commands.forEach(function (command) {
+                if (command.command) {
+                    commands.set(command.command, command);
+                }
+
+                if (command.rawCommand) {
+                    rawCommands.set(command.rawCommand, command);
+                }
+            });
+        });
     }
 
-    commandModule.commands.forEach(function (command) {
-        if (command.command) {
-            commands.set(command.command, command);
-        }
+    function run() {
+        var bot = new Discord.Client();
 
-        if (command.rawCommand) {
-            rawCommands.set(command.rawCommand, command);
-        }
-    });
-});
+        bot.on('ready', function () {
+            console.log('Connected');
+            console.log('Logged in as: ');
+            console.log(bot.user.username + ' - (' + bot.user.tag + ')');
 
-bot.on('message', function (message) {
-    var firstWord = message.content.split(' ', 1)[0];
+            bot.user.setActivity(config.commandSequence + 'help');
+        });
 
-    if (rawCommands.has(firstWord)) {
-        rawCommands.get(firstWord).handler(message);
+        bot.on('message', function (message) {
+            var firstWord = message.content.split(' ', 1)[0];
+
+            if (rawCommands.has(firstWord)) {
+                rawCommands.get(firstWord).handler(message);
+            }
+            else if (firstWord.substring(0, config.commandSequence.length) == config.commandSequence) {
+                var cmd = firstWord.substring(config.commandSequence.length);
+
+                if (cmd == 'help') {
+                    HelpMessage.helpMessage(message);
+                }
+                else if (commands.has(cmd)) {
+                    commands.get(cmd).handler(message);
+                }
+             }
+        });
+
+        bot.on('error', console.log);
+
+        bot.login(auth.token);
     }
-    else if (firstWord.substring(0, config.commandSequence.length) == config.commandSequence) {
-        var cmd = firstWord.substring(config.commandSequence.length);
-
-        if (cmd == 'help') {
-            HelpMessage.helpMessage(message);
-        }
-        else if (commands.has(cmd)) {
-            commands.get(cmd).handler(message);
-        }
-     }
-});
-
-bot.on('error', console.log);
-
-bot.login(auth.token);
+}

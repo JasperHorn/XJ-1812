@@ -2,7 +2,7 @@
     "name": "xj-1812",
     "version": "1.0.0",
     "description": "Just a Discord bot...",
-    "main": "bot.js",
+    "main": "xj-1812.js",
     "author": "Jasper Horn",
     "dependencies": {
         "discord.js": "git+https://github.com/discordjs/discord.js",
