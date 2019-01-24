@@ -21,7 +21,7 @@ bot.on('ready', function () {
     console.log('Logged in as: ');
     console.log(bot.user.username + ' - (' + bot.user.tag + ')');
 
-    bot.user.setActivity('/help');
+    bot.user.setActivity(config.commandSequence + 'help');
 });
 
 var commands = new Map();
@@ -33,7 +33,7 @@ commandModules.forEach(function (commandModule) {
 });
 
 bot.on('message', function (message) {
-    if (message.content.substring(0, 1) == '/') {
+    if (message.content.substring(0, config.commandSequence.length) == config.commandSequence) {
         var args = message.content.substring(1).split(' ');
         var cmd = args[0];
 
@@ -148,7 +148,7 @@ function moduleHelpText(commandModule) {
 }
 
 function commandHelpText(command) {
-    var output = '/' + command.command;
+    var output = config.commandSequence + command.command;
 
     if (command.usageHint) {
         output += ' ' + command.usageHint;
