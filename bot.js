@@ -71,12 +71,7 @@ function basicHelp(user) {
 
     commands.forEach(function (command) {
         if (command.includeInBasicHelp) {
-            response += '/' + command.command;
-
-            if (command.usageHint) {
-                response += ' ' + command.usageHint;
-            }
-
+            response += commandHelpText(command);
             response += '\n';
         }
     });
@@ -106,18 +101,7 @@ function listModules(user) {
     commandModules.forEach(function (commandModule) {
         if (!commandModule.hidden) {
             response += "\n";
-            response += "The " + commandModule.name + " module: \n";
-            response += commandModule.description + "\n";
-
-            commandModule.commands.forEach(function (command) {
-                response += '/' + command.command;
-
-                if (command.usageHint) {
-                    response += ' ' + command.usageHint;
-                }
-
-                response += '\n';
-            });
+            response += moduleHelpText(commandModule);
         }
     });
 
@@ -144,22 +128,33 @@ function listHiddenModules(user) {
     commandModules.forEach(function (commandModule) {
         if (commandModule.hidden) {
             response += "\n";
-            response += "The " + commandModule.name + " module: \n";
-            response += commandModule.description + "\n";
-
-            commandModule.commands.forEach(function (command) {
-                response += '/' + command.command;
-
-                if (command.usageHint) {
-                    response += ' ' + command.usageHint;
-                }
-
-                response += '\n';
-            });
+            response += moduleHelpText(commandModule);
         }
     });
 
     user.send(response);
+}
+
+function moduleHelpText(commandModule) {
+    var output = "The " + commandModule.name + " module: \n";
+    output += commandModule.description + "\n";
+
+    commandModule.commands.forEach(function (command) {
+        output += commandHelpText(command);
+        output += '\n';
+    });
+
+    return output;
+}
+
+function commandHelpText(command) {
+    var output = '/' + command.command;
+
+    if (command.usageHint) {
+        output += ' ' + command.usageHint;
+    }
+
+    return output;
 }
 
 bot.login(auth.token);
