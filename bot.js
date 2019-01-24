@@ -25,17 +25,28 @@ bot.on('ready', function () {
 });
 
 var commands = new Map();
+var rawCommands = new Map();
 
 commandModules.forEach(function (commandModule) {
     commandModule.commands.forEach(function (command) {
-        commands.set(command.command, command);
+        if (command.command) {
+            commands.set(command.command, command);
+        }
+
+        if (command.rawCommand) {
+            rawCommands.set(command.rawCommand, command);
+        }
     });
 });
 
 bot.on('message', function (message) {
-    if (message.content.substring(0, config.commandSequence.length) == config.commandSequence) {
-        var args = message.content.substring(1).split(' ');
-        var cmd = args[0];
+    var firstWord = message.content.split(' ', 1)[0];
+
+    if (rawCommands.has(firstWord)) {
+        rawCommands.get(firstWord).handler(message);
+    }
+    else if (firstWord.substring(0, config.commandSequence.length) == config.commandSequence) {
+        var cmd = firstWord.substring(config.commandSequence.length);
 
         if (cmd == 'help') {
             help(message);
@@ -69,11 +80,13 @@ function help(message) {
 function basicHelp(user) {
     response = "These are some of the commands I respond to: \n\n";
 
-    commands.forEach(function (command) {
-        if (command.includeInBasicHelp) {
-            response += commandHelpText(command);
-            response += '\n';
-        }
+    commandModules.forEach(function (commandModule) {
+        commandModule.commands.forEach(function (command) {
+            if (command.includeInBasicHelp) {
+                response += commandHelpText(command);
+                response += '\n';
+            }
+        });
     });
 
     response += '\nFeel free to experiment!';
@@ -148,7 +161,14 @@ function moduleHelpText(commandModule) {
 }
 
 function commandHelpText(command) {
-    var output = config.commandSequence + command.command;
+    var output;
+
+    if (command.rawCommand) {
+        output = command.rawCommand;
+    }
+    else {
+        output = config.commandSequence + command.command;
+    }
 
     if (command.usageHint) {
         output += ' ' + command.usageHint;

@@ -2,7 +2,7 @@
 var Utils = require('../utils.js');
 
 var slapCommand = {
-    command: 'slap',
+    rawCommand: '/slap',
     handler: slap,
     includeInBasicHelp: true
 };
