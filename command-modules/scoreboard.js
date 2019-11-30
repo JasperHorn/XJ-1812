@@ -14,7 +14,7 @@ var scoreboardCommand = {
 var scoreCommand = {
     command: 'score',
     handler: score,
-    usageHint: '<scoreboard> <user> <score>',
+    usageHint: '<scoreboard> <user> [+|-|=]<score>',
     includeInBasicHelp: true
 };
 
@@ -80,9 +80,13 @@ function score(message)
         return;
     }
 
+    var regex = /^(\\+|-|=)?(.*)$/;
+    var scoreOperation = regex.exec(args[3]);
+
     var scoreboard = args[1];
     var user = args[2];
-    var score = parseInt(args[3], 10);
+    var operation = scoreOperation[1];
+    var score = parseInt(scoreOperation[2], 10);
 
     if (!scoreboards.has(scoreboard)) {
         message.channel.send("There is no scoreboard named " + scoreboard + ".");
@@ -92,6 +96,20 @@ function score(message)
     if (isNaN(score)) {
         message.channel.send("Score needs to be a number.");
         return;
+    }
+
+    if (!scoreboards.get(scoreboard).has(user))
+    {
+        scoreboards.get(scoreboard).set(user, 0);
+    }
+
+    if (operation == '+' || operation == undefined)
+    {
+        score += scoreboards.get(scoreboard).get(user);
+    }
+    else if (operation == '-')
+    {
+        score = scoreboards.get(scoreboard).get(user) - score;
     }
 
     scoreboards.get(scoreboard).set(user, score);
