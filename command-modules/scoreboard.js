@@ -40,7 +40,7 @@ function scoreboard(message) {
 
     if (scoreboards.has(name))
     {
-        var response = "Scoreboard " + name + "\n";
+        var response = "**Scoreboard " + name + "**\n";
         response += '\n';
 
         var scoreboard = scoreboards.get(name);
@@ -51,11 +51,21 @@ function scoreboard(message) {
         }
         else
         {
-            scoreboard.forEach(function (value, key)
+            function compareKeyValue(pair1, pair2)
             {
-                response += key;
-                response += ': ';
-                response += value;
+                return pair2[1] - pair1[1];
+            }
+            var scores = Array.from(scoreboard.entries()).sort(compareKeyValue);
+
+            scores.forEach(function (keyValuePair, rank)
+            {
+                response += '#';
+                response += (rank + 1);
+                response += ': **';
+                response += keyValuePair[0];
+                response += '** (*';
+                response += keyValuePair[1];
+                response += ' points*)';
                 response += '\n';
             });
         }
