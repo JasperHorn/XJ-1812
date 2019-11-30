@@ -1,7 +1,7 @@
 //
 // Part of XJ-1812
 // License: MITA
-// 
+//
 var Bot = require('./bot.js');
 
 var commandModules = [];
@@ -15,6 +15,7 @@ commandModules.push(require('./command-modules/dice.js'));
 commandModules.push(require('./command-modules/self-destroy.js'));
 commandModules.push(require('./command-modules/save-attachments.js'));
 commandModules.push(require('./command-modules/sqlpoc.js'));
+commandModules.push(require('./command-modules/scoreboard.js'));
 
 var config = require('./config.json');
 
